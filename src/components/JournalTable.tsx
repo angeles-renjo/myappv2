@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -11,7 +10,10 @@ import {
   Link,
 } from "@nextui-org/react";
 import { Trade } from "@prisma/client";
-import { useUserId } from "@/context/UserIdContext"; // Adjust the import path as necessary
+
+interface JournalTableProps {
+  trades: Trade[];
+}
 
 const columnNames = [
   "Date",
@@ -24,22 +26,7 @@ const columnNames = [
   "View",
 ];
 
-const JournalTable: React.FC = () => {
-  const { userId } = useUserId();
-  const [trades, setTrades] = useState<Trade[]>([]);
-
-  useEffect(() => {
-    const fetchTrades = async () => {
-      if (!userId) return;
-      // Replace the URL with your actual API endpoint
-      const response = await fetch(`/api/trades?userId=${userId}`);
-      const data: Trade[] = await response.json();
-      setTrades(data);
-    };
-
-    fetchTrades();
-  }, [userId]); // Depend on userId to refetch trades if it changes
-
+const JournalTable: React.FC<JournalTableProps> = ({ trades }) => {
   return (
     <Table className="p-10" aria-label="Journal table">
       <TableHeader>

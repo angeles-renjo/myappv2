@@ -9,13 +9,11 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const { userId } = req.query;
-    console.log("Path userId:", userId); // Debugging line
     const trades = await prisma.trade.findMany({
       where: {
         userId: userId as string,
       },
     });
-    console.log("Trades:", trades); // Debugging line
     res.status(200).json(trades);
   } else {
     res.status(405).json({ message: "Method not allowed" });
