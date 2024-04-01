@@ -1,10 +1,13 @@
 // src/app/page.tsx
 "use client";
 import React, { useEffect, useState } from "react";
-import AccountSize from "@/components/AccountSize";
+import { AccountSize } from "@/components/AccountSize";
 import JournalTable from "@/components/JournalTable";
-import TradesList from "@/components/TradesList";
 import { useUserId } from "@/context/UserIdContext";
+import ProfitChart from "@/components/ProfitChart";
+import { TurnOffDefaultPropsWarning } from "@/components/TurnOffDefaultPropsWarning";
+import { Trade } from "@prisma/client";
+import GoalTracker from "@/components/GoalTracker";
 
 const Home: React.FC = () => {
   const { userId } = useUserId();
@@ -33,12 +36,26 @@ const Home: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const accountSize = userData?.accountSize || 0; // Adjust based on your actual data structure
+  const profitLoss =
+    tradesData?.reduce(
+      (sum: number, trade: Trade) => sum + (trade.profitLoss ?? 0),
+      0
+    ) || 0; //
+
   return (
-    <main className="flex flex-col items-center justify-between p-24">
-      <TradesList trades={tradesData} />
-      <JournalTable trades={tradesData} />
-      <AccountSize accountSize={userData.accountSize} />
-    </main>
+    <>
+      <TurnOffDefaultPropsWarning />
+      <main className="flex flex-col items-center justify-between p-24">
+        <JournalTable trades={tradesData} />
+        <GoalTracker accountSize={accountSize} profitLoss={profitLoss} />
+        <ProfitChart
+          userData={userData}
+          tradesData={tradesData}
+          onDataUpdate={() => {}}
+        />
+      </main>
+    </>
   );
 };
 

@@ -1,16 +1,14 @@
-import { User } from "@prisma/client";
+// src/components/AccountSize.tsx
+import { ProgressCircle } from "@tremor/react";
 
-interface AccountSizeProps {
-  accountSize: User["accountSize"];
+interface AccountSize {
+  accountSize: number;
 }
 
-const AccountSize: React.FC<AccountSizeProps> = ({ accountSize }) => {
-  return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl">Account Size</h1>
-      <div className="text-2xl">{accountSize}</div>
+export const AccountSize: React.FC<AccountSize> = ({ accountSize }) => (
+  <div className="mx-auto grid grid-cols-1 gap-12">
+    <div className="flex justify-center">
+      <ProgressCircle value={accountSize} size="lg" />
     </div>
-  );
-};
-
-export default AccountSize;
+  </div>
+);
