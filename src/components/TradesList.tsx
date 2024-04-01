@@ -2,21 +2,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Trade } from "@prisma/client";
+import { useUserId } from "../context/UserIdContext";
 
-interface TradesListProps {
-  userId: string | null;
-}
-
-const TradesList: React.FC<TradesListProps> = ({ userId }) => {
+const TradesList: React.FC = () => {
+  const { userId } = useUserId();
   const [trades, setTrades] = useState<Trade[]>([]);
 
   useEffect(() => {
     const fetchTrades = async () => {
+      if (!userId) return;
       const response = await fetch(`/api/trades?userId=${userId}`);
       const data: Trade[] = await response.json();
-      console.log(data);
-      console.log("User ID:", userId);
-
       setTrades(data);
     };
 
