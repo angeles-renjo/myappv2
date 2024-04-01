@@ -23,7 +23,7 @@ interface UserIdProviderProps {
 export const UserIdProvider: React.FC<UserIdProviderProps> = ({ children }) => {
   // Set the initial userId to the desired value
   const [userId, setUserId] = useState<string | null>(
-    "660a145462a62af5ad28e5a6"
+    "66048ddd59652ffc40704b6d"
   );
 
   return (
