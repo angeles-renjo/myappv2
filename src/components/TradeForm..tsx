@@ -29,9 +29,12 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
   const [profitLoss, setProfitLoss] = useState<number | null>(null);
   const [date, setDate] = useState("");
   const [link, setLink] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state variable
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true); // Disable the button
+
     onSubmit({
       pair,
       rule,
@@ -43,6 +46,9 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
       link,
       userId,
     });
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 5000);
   };
 
   return (
@@ -128,7 +134,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
               placeholder="Select date"
               labelPlacement="outside"
               value={date}
-              required
+              isRequired={true}
               onChange={(e) => setDate(e.target.value)}
             />
             <Input
@@ -139,7 +145,12 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
               value={link}
               onChange={(e) => setLink(e.target.value)}
             />
-            <Button variant="faded" type="submit" className="mt-4">
+            <Button
+              variant="faded"
+              type="submit"
+              className="mt-4"
+              isDisabled={isSubmitting} // Use isDisabled for NextUI buttons
+            >
               Submit Trade
             </Button>
           </form>

@@ -9,6 +9,7 @@ import { TurnOffDefaultPropsWarning } from "@/components/TurnOffDefaultPropsWarn
 import { Trade } from "@prisma/client";
 import GoalTracker from "@/components/GoalTracker";
 import TradeForm from "@/components/TradeForm.";
+import { Spinner } from "@nextui-org/react";
 
 const Home: React.FC = () => {
   const { userId } = useUserId();
@@ -69,7 +70,11 @@ const Home: React.FC = () => {
   };
 
   if (!userData || !tradesData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Spinner size="lg" color="success" />
+      </div>
+    );
   }
   const accountSize = userData?.accountSize || 0; // Adjust based on your actual data structure
   const profitLoss =
