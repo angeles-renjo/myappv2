@@ -30,6 +30,19 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      if (userId) {
+        // Fetch user data
+        const userResponse = await fetch(`/api/user?userId=${userId}`);
+        const userData = await userResponse.json();
+        setUserData(userData);
+
+        // Fetch trades data
+        const tradesResponse = await fetch(`/api/trades?userId=${userId}`);
+        const tradesData = await tradesResponse.json();
+        setTradesData(tradesData);
+      }
+    };
     fetchData(); // Call fetchData inside useEffect
   }, [userId]);
 
