@@ -1,4 +1,4 @@
-// pages/api/trades/[userId].ts
+// pages/api/trades.ts
 
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
@@ -15,6 +15,14 @@ export default async function handler(
       },
     });
     res.status(200).json(trades);
+  } else if (req.method === "POST") {
+    const tradeData = req.body;
+    const newTrade = await prisma.trade.create({
+      data: {
+        ...tradeData,
+      },
+    });
+    res.status(201).json(newTrade);
   } else {
     res.status(405).json({ message: "Method not allowed" });
   }

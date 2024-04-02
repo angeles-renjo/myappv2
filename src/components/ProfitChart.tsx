@@ -28,7 +28,9 @@ export default function ProfitChart({
     const formattedData = tradesData.map((trade: Trade) => {
       const date = new Date(trade.date);
       const formattedDate = `${date.getDate()}/${date.getMonth() + 1}`;
-      currentAccountSize += trade.profitLoss || 0;
+      // Ensure profitLoss is treated as a number, converting null to 0
+      const profitLossValue = trade.profitLoss !== null ? trade.profitLoss : 0;
+      currentAccountSize += profitLossValue;
 
       return {
         date: formattedDate,

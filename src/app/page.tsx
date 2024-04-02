@@ -8,34 +8,56 @@ import ProfitChart from "@/components/ProfitChart";
 import { TurnOffDefaultPropsWarning } from "@/components/TurnOffDefaultPropsWarning";
 import { Trade } from "@prisma/client";
 import GoalTracker from "@/components/GoalTracker";
+import TradeForm from "@/components/TradeForm.";
 
 const Home: React.FC = () => {
   const { userId } = useUserId();
   const [userData, setUserData] = useState<any>(null); // Adjust the type based on your data structure
   const [tradesData, setTradesData] = useState<any>(null); // Adjust the type based on your data structure
 
+  const fetchData = async () => {
+    if (userId) {
+      // Fetch user data
+      const userResponse = await fetch(`/api/user?userId=${userId}`);
+      const userData = await userResponse.json();
+      setUserData(userData);
+
+      // Fetch trades data
+      const tradesResponse = await fetch(`/api/trades?userId=${userId}`);
+      const tradesData = await tradesResponse.json();
+      setTradesData(tradesData);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (userId) {
-        // Fetch user data
-        const userResponse = await fetch(`/api/user?userId=${userId}`);
-        const userData = await userResponse.json();
-        setUserData(userData);
-
-        // Fetch trades data
-        const tradesResponse = await fetch(`/api/trades?userId=${userId}`);
-        const tradesData = await tradesResponse.json();
-        setTradesData(tradesData);
-      }
-    };
-
-    fetchData();
+    fetchData(); // Call fetchData inside useEffect
   }, [userId]);
+
+  // Function to handle trade submission
+  const handleTradeSubmit = async (trade: Omit<Trade, "id">) => {
+    try {
+      const response = await fetch("/api/trades", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(trade),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // Optionally, re-fetch trades data after a new trade is submitted
+      fetchData();
+    } catch (error) {
+      console.error("Error submitting trade:", error);
+    }
+  };
 
   if (!userData || !tradesData) {
     return <div>Loading...</div>;
   }
-
   const accountSize = userData?.accountSize || 0; // Adjust based on your actual data structure
   const profitLoss =
     tradesData?.reduce(
@@ -54,6 +76,8 @@ const Home: React.FC = () => {
           tradesData={tradesData}
           onDataUpdate={() => {}}
         />
+        {/* Pass the handleTradeSubmit function to the TradeForm component */}
+        <TradeForm onSubmit={handleTradeSubmit} userId={userId as string} />
       </main>
     </>
   );
