@@ -19,23 +19,30 @@ const GoalTracker: React.FC<GoalTrackerProps> = ({
   const strokeWidth = progressPercentage > 50 ? 10 : 5;
 
   return (
-    <div className="text-white">
-      <h2>Goal Tracker</h2>
-      <p>Account Size: {accountSize}</p>
-      <p>Profit/Loss: {profitLoss}</p>
-      <p>Total: {total}</p>
-      <ProgressCircle
-        className="stroke-green-500"
-        value={progressPercentage}
-        size="xl"
-        color="indigo"
-        strokeWidth={strokeWidth}
-        showAnimation={true}
-      >
-        <span className="text-xs font-medium text-slate-700">
-          {progressPercentage.toFixed(0)}%
-        </span>
-      </ProgressCircle>
+    <div>
+      <h1 className="text-center p-10 text-4xl">Goal Tracker</h1>
+
+      <div className="text-white flex space-x-8 items-center">
+        <div>
+          <p>Account Size: {accountSize}</p>
+          <p>Profit/Loss: {profitLoss}</p>
+          <p>Total: {total}</p>
+        </div>
+        <div>
+          <ProgressCircle
+            className="stroke-green-500"
+            value={progressPercentage}
+            size="xl"
+            color="indigo"
+            strokeWidth={strokeWidth}
+            showAnimation={true}
+          >
+            <span className="text-lg font-medium text-slate-700">
+              {progressPercentage.toFixed(0)}%
+            </span>
+          </ProgressCircle>
+        </div>
+      </div>
     </div>
   );
 };

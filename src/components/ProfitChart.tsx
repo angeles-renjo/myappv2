@@ -41,9 +41,12 @@ export default function ProfitChart({
   }, [userData, tradesData, onDataUpdate]);
 
   return (
-    <div className="lg:flex lg:justify-center w-full profit-chart">
+    <div className="profit-chart sm:w-full lg:w-1/2 w-full">
+      <h1 className="text-center text-4xl tracking-widest text-white">
+        PNL CHART
+      </h1>
       <AreaChart
-        className="h-80 profit-chart w-full lg:w-3/6"
+        className="h-52 w-full"
         data={chartData}
         index="date"
         categories={["accountSize"]}

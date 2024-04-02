@@ -68,16 +68,17 @@ const Home: React.FC = () => {
   return (
     <>
       <TurnOffDefaultPropsWarning />
-      <main className="flex flex-col items-center justify-between p-24">
-        <JournalTable trades={tradesData} />
-        <GoalTracker accountSize={accountSize} profitLoss={profitLoss} />
-        <ProfitChart
-          userData={userData}
-          tradesData={tradesData}
-          onDataUpdate={() => {}}
-        />
-        {/* Pass the handleTradeSubmit function to the TradeForm component */}
+      <main className="flex flex-col items-center justify-between p-10 w-full">
         <TradeForm onSubmit={handleTradeSubmit} userId={userId as string} />
+        <JournalTable trades={tradesData} />
+        <div className=" flex flex-col sm:flex-row gap-10 justify-around w-full items-center">
+          <GoalTracker accountSize={accountSize} profitLoss={profitLoss} />
+          <ProfitChart
+            userData={userData}
+            tradesData={tradesData}
+            onDataUpdate={() => {}}
+          />
+        </div>
       </main>
     </>
   );

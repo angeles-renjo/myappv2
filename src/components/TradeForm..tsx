@@ -54,7 +54,10 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-8 p-10">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 py-8 px-2 lg:p-10"
+          >
             <Input
               type="text"
               label="Pair"
@@ -125,6 +128,7 @@ const TradeForm: React.FC<TradeFormProps> = ({ onSubmit, userId }) => {
               placeholder="Select date"
               labelPlacement="outside"
               value={date}
+              required
               onChange={(e) => setDate(e.target.value)}
             />
             <Input
