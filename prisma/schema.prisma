@@ -5,15 +5,9 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+
 }
 
-model User {
- id      String   @id @default(auto()) @map("_id") @db.ObjectId
- email   String   @unique
- name    String?
- accountSize Float
- trades Trade[]
-}
 
 model Trade {
  id          String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -26,5 +20,6 @@ model Trade {
  date        String
  link        String?
  userId      String   @db.ObjectId
- user        User     @relation(fields: [userId], references: [id])
+ userEmail      String
+ @@unique([userEmail])
 }
