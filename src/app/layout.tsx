@@ -1,6 +1,6 @@
 import "./globals.css";
-import { UserIdProvider } from "@/context/UserIdContext";
 import { Providers } from "@/context/providers";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export default function RootLayout({
   children,
@@ -8,12 +8,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body>
-        <Providers>
-          <UserIdProvider>{children}</UserIdProvider>
-        </Providers>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className="dark">
+        <body>
+          <Providers>
+            <>{children}</>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
